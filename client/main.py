@@ -5,7 +5,7 @@ import requests
 
 def main():
     response = requests.get('http://server:8000')
-    print(response.status_code)
+    print(response.status_code, response.content)
 
 
 if __name__ == '__main__':
