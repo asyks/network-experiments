@@ -4,9 +4,9 @@ services:
   server:
     build: ./server
     command: python main.py
-    ports:
-      - '8000:8000'
+    network_mode: host
 
   client:
     build: ./client
     command: python main.py
+    network_mode: host

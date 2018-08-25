@@ -5,7 +5,7 @@ import socket
 
 
 def main():
-    conn = http.client.HTTPConnection('server', 8000)
+    conn = http.client.HTTPConnection('localhost', 8000)
     conn.putrequest('GET', '/')
     try:
         conn.endheaders()
