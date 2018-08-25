@@ -6,9 +6,15 @@ from http import HTTPStatus
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
-    def do_GET(self):
-        self.send_response(HTTPStatus.OK)
+    def _send_header_and_status(self, status=HTTPStatus.OK):
+        self.send_response(status)
         self.end_headers()
+
+    def do_HEAD(self):
+        self._send_header_and_status()
+
+    def do_GET(self):
+        self._send_header_and_status()
         self.wfile.write(bytes('OK', 'utf-8'))
 
 

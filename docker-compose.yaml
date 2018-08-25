@@ -4,6 +4,8 @@ services:
   server:
     build: ./server
     command: python main.py
+    stdin_open: true
+    tty: true
     ports:
       - '8000:8000'
 

@@ -4,9 +4,9 @@ import http.client
 import socket
 
 
-def main():
+def request(method, path='/'):
     conn = http.client.HTTPConnection('server', 8000)
-    conn.putrequest('GET', '/')
+    conn.putrequest(method, path)
     try:
         conn.endheaders()
     except socket.gaierror as err:
@@ -25,9 +25,15 @@ def main():
                 err.args[1],
             ),
         )
+
     else:
         resp = conn.getresponse()
         print(resp.status, resp.reason)
+
+
+def main():
+    request('GET')
+    request('HEAD')
 
 
 if __name__ == '__main__':
