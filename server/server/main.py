@@ -13,7 +13,16 @@ logger = logging.getLogger(__name__)
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def _log_connection_info(self):
-        pass
+        logger.info(
+            (
+                self.address_string(),
+                self.client_address,
+                self.request.family.value,  # Either: Unix, INET, or INET6
+                self.request.type.value,  # Either: Unix, INET, or INET6
+                self.request.fileno(),  # file number of the socket object
+                self.headers.as_string(),
+            )
+        )
 
     def _send_header_and_status(self, status=HTTPStatus.OK):
         self.send_response(status)
