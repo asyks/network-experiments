@@ -18,7 +18,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.address_string(),
                 self.client_address,
                 self.request.family.value,  # Either: Unix, INET, or INET6
-                self.request.type.value,  # Either: Unix, INET, or INET6
+                self.request.type.value,  # Stream, Datagram, Raw, etc.
                 self.request.fileno(),  # file number of the socket object
                 self.headers.as_string(),
             )
