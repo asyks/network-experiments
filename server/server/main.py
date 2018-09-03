@@ -5,6 +5,7 @@ from http import HTTPStatus
 import logging
 
 import log
+from request_inspect import SocketInspector
 
 
 logger = logging.getLogger(__name__)
@@ -13,16 +14,22 @@ logger = logging.getLogger(__name__)
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def _log_connection_info(self):
-        logger.info(
-            (
-                self.address_string(),
-                self.client_address,
-                self.request.family.value,  # Either: Unix, INET, or INET6
-                self.request.type.value,  # Stream, Datagram, Raw, etc.
-                self.request.fileno(),  # file number of the socket object
-                self.headers.as_string(),
-            )
-        )
+
+        headers = self.headers.as_string()  # TODO: handle excpetions here
+        logger.info('Request headers: %s', headers)
+
+        clnt_addr = self.client_address
+        if isinstance(clnt_addr, tuple) and len(clnt_addr) == 2:
+            addr_str = clnt_addr[0]
+            port = clnt_addr[1]
+
+            logger.info('Client address and port: %s:%s', addr_str, port)
+
+        request = self.request
+        sock_inspector = SocketInspector(request)
+        sock_info = sock_inspector.socket_info
+
+        logger.info('Socket info: %s', sock_info)
 
     def _send_header_and_status(self, status=HTTPStatus.OK):
         self.send_response(status)
