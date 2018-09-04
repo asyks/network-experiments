@@ -3,7 +3,7 @@
 import logging
 
 
-LOG_RECORD_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+LOG_RECORD_FORMAT = '%(levelname)s - %(module)s - %(message)s'
 
 
 def init_logger(log_level=logging.INFO):

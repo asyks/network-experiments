@@ -21,22 +21,23 @@ class SocketInspector(object):
     def socket_info(self):
         socket_info = {}
 
-        sock_family = getattr(self._r, 'family')
-        if sock_family and isinstance(sock_family, socket.AddressFamily):
+        sock_family = self._r.family
+        sock_type = self._r.type
+        get_sock_num = self._r.fileno
+
+        if isinstance(sock_family, socket.AddressFamily):
             # Address Family e.g. Unix, INET, INET6
             socket_info['family'] = sock_family.name
         else:
             socket_info['family'] = NotImplemented
 
-        sock_type = getattr(self._r, 'type')
-        if sock_type and isinstance(sock_type, socket.SocketKind):
+        if isinstance(sock_type, socket.SocketKind):
             # Socket type e.g. Stream, Datagram, Raw
             socket_info['type'] = sock_type.name
         else:
             socket_info['type'] = NotImplemented
 
-        get_sock_num = getattr(self._r, 'fileno')
-        if get_sock_num and callable(get_sock_num):
+        if callable(get_sock_num):
             # File number of the socket object
             socket_info['num'] = get_sock_num()
         else:
