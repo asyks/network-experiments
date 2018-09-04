@@ -14,21 +14,25 @@ logger = logging.getLogger(__name__)
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def _log_connection_info(self):
+        # Print the request headers
+        try:
+            headers = self.headers.as_string()
+        except AttributeError:
+            pass
+        else:
+            logger.info('Request headers: %s', headers)
 
-        headers = self.headers.as_string()  # TODO: handle excpetions here
-        logger.info('Request headers: %s', headers)
-
-        clnt_addr = self.client_address
-        if isinstance(clnt_addr, tuple) and len(clnt_addr) == 2:
-            addr_str = clnt_addr[0]
-            port = clnt_addr[1]
-
+        # Print the client ipaddress and port
+        try:
+            addr_str, port = self.client_address
+        except TypeError:
+            pass
+        else:
             logger.info('Client address and port: %s:%s', addr_str, port)
 
-        request = self.request
-        sock_inspector = SocketInspector(request)
+        # Retrieve and print info on the connections socket
+        sock_inspector = SocketInspector(self.request)
         sock_info = sock_inspector.socket_info
-
         logger.info('Socket info: %s', sock_info)
 
     def _send_header_and_status(self, status=HTTPStatus.OK):
