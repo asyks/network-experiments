@@ -30,7 +30,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         else:
             logger.info('Client address and port: %s:%s', addr_str, port)
 
-        # Retrieve and print info on the connections socket
+        # Retrieve and print info on the connection's socket
         sock_inspector = SocketInspector(self.request)
         sock_info = sock_inspector.socket_info
         logger.info('Socket info: %s', sock_info)
