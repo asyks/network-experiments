@@ -3,6 +3,7 @@
 import asyncio
 import http
 import json
+import pprint
 import sys
 import time
 
@@ -20,9 +21,14 @@ async def request(session, url, operation):
         return await response.text()
 
 
+async def sleep_for_2():
+    time.sleep(2)
+
+
 async def main():
     async with aiohttp.ClientSession() as session:
         for op in ops:
+            sleep_for_2()
             content = await request(
                 session, "http://" + BASE_URL + "/" + op, op
             )
@@ -31,6 +37,7 @@ async def main():
 
 def do_synchronous():
     for op in ops:
+        time.sleep(2)
         conn = http.client.HTTPConnection(BASE_URL, port=80)
         conn.request(op.upper(), "/" + op)
         resp = conn.getresponse()
@@ -40,7 +47,7 @@ def do_synchronous():
         except json.decoder.JSONDecodeError:
             pass
         else:
-            print(content)
+            pprint.pprint(content)
 
 
 def do_asynchronous():
