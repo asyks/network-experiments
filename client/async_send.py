@@ -14,9 +14,9 @@ BASE_URL = "httpbin.org"
 ops = ["get", "post", "put", "delete", "head"]
 
 
-def sleep_for_2():
+async def sleep_for_2():
+    await asyncio.sleep(2)
     print("Sleeping...")
-    asyncio.sleep(2)
 
 
 async def request(session, url, operation):
