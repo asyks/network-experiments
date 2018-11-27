@@ -14,6 +14,11 @@ BASE_URL = "httpbin.org"
 ops = ["get", "post", "put", "delete", "head"]
 
 
+def sleep_for_2():
+    print("Sleeping...")
+    asyncio.sleep(2)
+
+
 async def request(session, url, operation):
     method = getattr(session, operation)
     async with method(url) as response:
@@ -24,8 +29,7 @@ async def request(session, url, operation):
 async def main():
     async with aiohttp.ClientSession() as session:
         for op in ops:
-            print("Sleeping...")
-            asyncio.sleep(2)
+            sleep_for_2()
             content = await request(
                 session, "http://" + BASE_URL + "/" + op, op
             )
@@ -34,8 +38,7 @@ async def main():
 
 def do_synchronous():
     for op in ops:
-        print("Sleeping...")
-        time.sleep(2)
+        sleep_for_2()
         conn = http.client.HTTPConnection(BASE_URL, port=80)
         conn.request(op.upper(), "/" + op)
         resp = conn.getresponse()
